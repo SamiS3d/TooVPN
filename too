@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+
+import subprocess
+import sys
+import os
+
+VERSION = "1.0"
+
+BASE_DIR = "/home/kali/Desktop/vpnbook-openvpn-fr231/"
+VPN_CONFIG_DIR = os.path.expanduser(BASE_DIR)
+COUNTRIES = ["france", "canada", "usa"]
+
+def show_help():
+    print("""
+Usage: too [option]
+Options:
+  france             Connect to VPN server in France.
+  canada             Connect to VPN server in canada.
+  usa                Connect to VPN server in America.
+  too                Install all requirements and verify configurations.
+  --help    Or  -H   Show this help message.
+  --version Or  -V   Show the version of the tool.
+    """)
+
+def install_dependencies():
+    """Install necessary dependencies for the VPN tool."""
+    print("Checking for necessary dependencies...")
+
+    # Check if openvpn is installed
+    try:
+        subprocess.run(["openvpn", "--version"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        print("OpenVPN is already installed.")
+    except FileNotFoundError:
+        print("OpenVPN is not installed. Installing it now...")
+        try:
+            subprocess.run(["sudo", "apt", "update"], check=True)
+            subprocess.run(["sudo", "apt", "install", "-y", "openvpn"], check=True)
+            print("OpenVPN installed successfully.")
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to install OpenVPN: {e}")
+            sys.exit(1)
+
+def verify_vpn_config(country):
+    """Verify the presence of the .ovpn file for the specified country."""
+    vpn_file_path = os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}.ovpn")
+    if os.path.exists(vpn_file_path):
+        print(f"VPN configuration for {country.capitalize()} found locally.")
+        return vpn_file_path
+    else:
+        print(f"VPN configuration for {country.capitalize()} not found in {VPN_CONFIG_DIR}.")
+        return None
+
+def connect_vpn(country):
+    """Connect to the VPN server for the specified country."""
+    vpn_file = verify_vpn_config(country)
+    if vpn_file:
+        try:
+            print(f"Connecting to VPN in {country.capitalize()}...")
+            process = subprocess.Popen(
+                ["sudo", "openvpn", "--config", vpn_file],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+
+            if country == "france":
+                print("VPN connected to France. Running ASCII art display...")
+                subprocess.run(["curl", "ascii.live/forrest"])
+            elif country == "usa":
+                print("VPN connected to USA. Running ASCII art display...")
+                subprocess.run(["curl", "ascii.live/parrot"])
+            elif country == "canada":
+                print("VPN connected to Canada. Running ASCII art display...")
+                subprocess.run(["curl","ascii.live/coin"])
+            
+            process.wait()
+            print(f"VPN disconnected from {country.capitalize()}.")
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to connect to VPN in {country.capitalize()}: {e}")
+    else:
+        print(f"Could not find VPN configuration for {country.capitalize()}.")
+
+def disconnect_vpn():
+    """Disconnect from the VPN."""
+    try:
+        print("Disconnecting from VPN...")
+        subprocess.run(["sudo", "killall", "openvpn"], check=True)
+        print("Disconnected successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to disconnect from VPN: {e}")
+
+def main():
+    if len(sys.argv) < 2:
+        print("No arguments provided. Installing dependencies and verifying configurations...")
+        install_dependencies()
+        print("All dependencies are ready. Use --help for available options.")
+        return
+
+    command = sys.argv[1]
+
+    if command == "--help" or command == "-H":
+        show_help()
+    elif command == "--version" or command == "-V":
+        print(f"too version: {VERSION}")
+    elif command == "--disconnect":
+        disconnect_vpn()
+    elif command in COUNTRIES:
+        connect_vpn(command)
+    elif command == "too":
+        print("Installing dependencies and verifying VPN configurations...")
+        install_dependencies()
+        print("Setup completed. Use --help for available options.")
+    else:
+        print(f"Unknown command: {command}. Use --help for available options.")
+
+if __name__ == "__main__":
+    main()
