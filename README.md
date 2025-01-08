@@ -1,6 +1,4 @@
 # TooVPN
-![Screenshot 2025-01-08 084130](https://github.com/user-attachments/assets/f5fbfd19-3f65-438e-9f3d-c8185b577d32)
-
 TooVPN is an open-source tool that allows you to easily connect to VPN servers using `.ovpn` configuration files.
 
 ## **How to Download and Install the Tool**
@@ -22,9 +20,9 @@ too
 
 How to Use
 ```bash
-./too france
-./too canada
-./too usa
+too france
+too canada
+too usa
 ```
 
 Show Help
