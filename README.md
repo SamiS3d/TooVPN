@@ -35,3 +35,5 @@ Show the Tool's Version
 ```bash
 too --version
 ```
+![Screenshot 2025-01-08 073459](https://github.com/user-attachments/assets/396fd766-1975-46fb-b070-e0b2264dee06)
+
