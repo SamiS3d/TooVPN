@@ -13,7 +13,7 @@ cd TooVPN
 ```bash
 sudo chmod +x too
 ```
-### 3. **Download the Tool**
+### 3. **Download the File Tool**
 ```bash
 too
 ```
