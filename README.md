@@ -8,7 +8,6 @@ TooVPN is an open-source tool that allows you to easily connect to VPN servers u
 Run the following commands to download the tool:
 ```bash
 git clone https://github.com/SamiS3d/TooVPN.git
-cd TooVPN
 
 ### 2. **Set Up the Tool**
 chmod +x too
