@@ -184,13 +184,17 @@ for vpn_file in vpn_files:
                                                                                                     
                                                                                                     
                                                                                                     """)
-            process.wait()
-            print(f"VPN disconnected from {country.capitalize()}.")
-        except subprocess.CalledProcessError as e:
-            print(f"Failed to connect to VPN in {country.capitalize()}: {e}")
-    else:
-        print(f"Could not find VPN configuration for {country.capitalize()}.")
+                else:
+                    print(f"VPN connected to {country.capitalize()}.")
 
+                process.wait()
+                print(f"VPN disconnected from {country.capitalize()}.")
+            except subprocess.CalledProcessError as e:
+                print(f"Failed to connect to VPN in {country.capitalize()}: {e}")
+            return  # إنهاء الدالة بعد الاتصال الناجح
+
+    # إذا لم يتم العثور على أي ملف VPN
+    print(f"No valid VPN configuration found for {country.capitalize()}.")
 def disconnect_vpn():
     """Disconnect from the VPN."""
     try:
