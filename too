@@ -6,7 +6,9 @@ import os
 
 VERSION = "1.0"
 
-BASE_DIR = ("/home/kali/Desktop/vpnbook-openvpn-fr231/")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+VPN_CONFIG_DIR = os.path.join(BASE_DIR, "vpnbook-openvpn-fr231")
 VPN_CONFIG_DIR = os.path.expanduser(BASE_DIR)
 COUNTRIES = ["france", "canada", "usa"]
 
