@@ -3,17 +3,31 @@ TooVPN is an open-source tool that allows you to easily connect to VPN servers u
 
 ## **How to Download and Install the Tool**
 
-### 1. **Download the Tool**
+### 1. **Ensure the tool is installed in the correct path**
+```bash
+cd /usr/local/bin
+```
+
+
+
+### 2. **Download the Tool**
 Run the following commands to download the tool:
 ```bash
-git clone https://github.com/SamiS3d/TooVPN.git
+sudo git clone https://github.com/SamiS3d/TooVPN.git
 cd TooVPN
 ```
-### 2. **Set Up the Tool**
+### 3. **Move to bin**
+```bash
+sudo mv too /usr/local/bin 
+sudo mv vpnbook-openvpn-fr231 /usr/local/bin
+cd ..
+```
+
+### 4. **Set Up the Tool**
 ```bash
 sudo chmod +x too
 ```
-### 3. **Download the File Tool**
+### 5. **Download the File Tool**
 ```bash
 too
 ```
