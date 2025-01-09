@@ -116,25 +116,32 @@ def verify_vpn_config(country):
         return None
 
 def connect_vpn(country):
-    """Connect to the VPN server for the specified country."""
-    vpn_file = verify_vpn_config(country)
-    if vpn_file:
-        try:
-            print(f"Connecting to VPN in {country.capitalize()}...")
-            process = subprocess.Popen(
-                ["sudo", "openvpn", "--config", vpn_file],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
-            )
+    vpn_files = [
+        os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-tcp80.ovpn"),
+        os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-tcp443.ovpn"),
+        os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-udp53.ovpn"),
+        os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-udp25000.ovpn")
+    ]
 
-            if country == "france":
-                print("VPN connected to France. Running ASCII art display...")
+    for vpn_file in vpn_files:
+        if os.path.exists(vpn_file):
+            try:
+                print(f"Connecting to VPN using configuration: {vpn_file}...")
+                process = subprocess.Popen(
+                    ["sudo", "openvpn", "--config", vpn_file],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE
+                )
+
+
+            if country == "fr":
+                print("VPN connected to France.")
                 subprocess.run(["curl", "ascii.live/forrest"])
             elif country == "usa":
-                print("VPN connected to USA. Running ASCII art display...")
+                print("VPN connected to us.")
                 subprocess.run(["curl", "ascii.live/parrot"])
-            elif country == "canada":
-                print("VPN connected to Canada. Running ASCII art display...")
+            elif country == "ca":
+                print("VPN connected to Canada.")
                 print("""                                                                                                    
                                                                                                     
                                                                                                     
