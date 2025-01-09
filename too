@@ -22,9 +22,40 @@ Options:
   too                Install all requirements and verify configurations.
   --help    Or  -H   Show this help message.
   --version Or  -V   Show the version of the tool.
+  --update           update TooVPN
   --remove           delete TooVPN
     """)
 
+def update_tool():
+    """Update the tool by removing old files and cloning the latest version."""
+    try:
+        print("Updating the tool...")
+
+        # Step 1: Remove the old version
+        print("Removing the old version...")
+        remove_tool()
+
+        # Step 2: Clone the new version from GitHub
+        print("Cloning the latest version from GitHub...")
+        subprocess.run(["sudo", "git", "clone", "https://github.com/SamiS3d/TooVPN.git"], check=True)
+
+        # Step 3: Move the files to the appropriate directories
+        print("Installing the new version...")
+        subprocess.run(["sudo", "mv", "TooVPN/too", "/usr/local/bin"], check=True)
+        subprocess.run(["sudo", "mv", "TooVPN/vpnbook-openvpn-fr231", "/usr/local/bin"], check=True)
+
+        # Step 4: Set permissions
+        print("Setting executable permissions...")
+        subprocess.run(["sudo", "chmod", "+x", "/usr/local/bin/too"], check=True)
+
+        # Step 5: Clean up cloned repository
+        subprocess.run(["sudo", "rm", "-rf", "TooVPN"], check=True)
+        print("Tool updated successfully.")
+
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to update the tool: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 def remove_tool():
     """Remove the tool and its associated files."""
@@ -185,6 +216,8 @@ def main():
         print("Setup completed. Use --help for available options.")
     elif command == "--remove":
         remove_tool()
+    elif command == "--update":
+        update_tool()
     else:
         print(f"Unknown command: {command}. Use --help for available options.")
 
