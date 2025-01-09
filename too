@@ -137,7 +137,7 @@ for vpn_file in vpn_files:
             if country == "fr":
                 print("VPN connected to France.")
                 subprocess.run(["curl", "ascii.live/forrest"])
-            elif country == "usa":
+            elif country == "us":
                 print("VPN connected to USA.")
                 subprocess.run(["curl", "ascii.live/parrot"])
             elif country == "ca":
