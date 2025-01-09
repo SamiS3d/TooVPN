@@ -31,24 +31,18 @@ def update_tool():
     try:
         print("Updating the tool...")
 
-        # Step 1: Remove the old version
         print("Removing the old version...")
         remove_tool()
 
-        # Step 2: Clone the new version from GitHub
         print("Cloning the latest version from GitHub...")
         subprocess.run(["sudo", "git", "clone", "https://github.com/SamiS3d/TooVPN.git"], check=True)
 
-        # Step 3: Move the files to the appropriate directories
         print("Installing the new version...")
         subprocess.run(["sudo", "mv", "TooVPN/too", "/usr/local/bin"], check=True)
         subprocess.run(["sudo", "mv", "TooVPN/vpnbook-openvpn-fr231", "/usr/local/bin"], check=True)
 
-        # Step 4: Set permissions
         print("Setting executable permissions...")
         subprocess.run(["sudo", "chmod", "+x", "/usr/local/bin/too"], check=True)
-
-        # Step 5: Clean up cloned repository
         subprocess.run(["sudo", "rm", "-rf", "TooVPN"], check=True)
         print("Tool updated successfully.")
 
@@ -61,14 +55,12 @@ def remove_tool():
     """Remove the tool and its associated files."""
     try:
         print("Removing the tool and its associated files...")
-        # Paths to remove
         paths_to_remove = [
             "/usr/local/bin/TooVPN",
             "/usr/local/bin/vpnbook-openvpn-fr231",
             "/usr/local/bin/too",
         ]
 
-        # Remove each path
         for path in paths_to_remove:
             if os.path.exists(path):
                 if os.path.isdir(path):
@@ -91,7 +83,6 @@ def install_dependencies():
     """Install necessary dependencies for the VPN tool."""
     print("Checking for necessary dependencies...")
 
-    # Check if openvpn is installed
     try:
         subprocess.run(["openvpn", "--version"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         print("OpenVPN is already installed.")
@@ -190,9 +181,8 @@ def connect_vpn(country):
                 print(f"VPN disconnected from {country.capitalize()}.")
             except subprocess.CalledProcessError as e:
                 print(f"Failed to connect to VPN in {country.capitalize()}: {e}")
-            return  # إنهاء الدالة بعد الاتصال الناجح
+            return 
 
-    # إذا لم يتم العثور على أي ملف VPN
     print(f"No valid VPN configuration found for {country.capitalize()}.")
 def disconnect_vpn():
     """Disconnect from the VPN."""
