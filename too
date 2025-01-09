@@ -22,7 +22,39 @@ Options:
   too                Install all requirements and verify configurations.
   --help    Or  -H   Show this help message.
   --version Or  -V   Show the version of the tool.
+  --remove           delete TooVPN
     """)
+
+
+def remove_tool():
+    """Remove the tool and its associated files."""
+    try:
+        print("Removing the tool and its associated files...")
+        # Paths to remove
+        paths_to_remove = [
+            "/usr/local/bin/TooVPN",
+            "/usr/local/bin/vpnbook-openvpn-fr231",
+            "/usr/local/bin/too",
+        ]
+
+        # Remove each path
+        for path in paths_to_remove:
+            if os.path.exists(path):
+                if os.path.isdir(path):
+                    subprocess.run(["sudo", "rm", "-r", path], check=True)
+                else:
+                    subprocess.run(["sudo", "rm", path], check=True)
+                print(f"Removed: {path}")
+            else:
+                print(f"Path does not exist: {path}")
+        
+        print("Tool and files removed successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to remove files: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+
 
 def install_dependencies():
     """Install necessary dependencies for the VPN tool."""
@@ -151,6 +183,8 @@ def main():
         print("Installing dependencies and verifying VPN configurations...")
         install_dependencies()
         print("Setup completed. Use --help for available options.")
+    elif command == "--remove":
+        remove_tool()
     else:
         print(f"Unknown command: {command}. Use --help for available options.")
 
