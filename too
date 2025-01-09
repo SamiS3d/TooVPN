@@ -5,7 +5,15 @@ import sys
 import os
 
 VERSION = "1.0"
-VPN_CONFIG_DIR = os.path.dirname(os.path.abspath(__file__))
+
+import os
+
+VPN_CONFIG_DIR = os.getenv("VPN_CONFIG_DIR")
+
+if VPN_CONFIG_DIR is None:
+    print("Error: VPN_CONFIG_DIR is not set!")
+    exit(1)
+
 BASE_DIR = os.path.join(VPN_CONFIG_DIR, "vpnbook-openvpn-fr231")
 VPN_CONFIG_DIR = os.path.expanduser(BASE_DIR)
 
