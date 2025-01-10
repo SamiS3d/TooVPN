@@ -19,7 +19,7 @@ cd TooVPN
 ### 3. **Move to bin**
 ```bash
 sudo mv too /usr/local/bin 
-sudo mv vpnbook-openvpn-fr231 /usr/local/bin 
+sudo mv vpnbook-openvpn-fr231 /home/kali/Downloads 
 cd ..
 ```
 
