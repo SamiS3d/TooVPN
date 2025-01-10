@@ -181,16 +181,16 @@ def connect_vpn(country):
                                                                                                     
                                                                                                     
                                                                                                     """)
-                else:
-                    print(f"VPN connected to {country.capitalize()}.")
-
-                process.wait()
-                print(f"VPN disconnected from {country.capitalize()}.")
+               return
             except subprocess.CalledProcessError as e:
-                print(f"Failed to connect to VPN in {country.capitalize()}: {e}")
-            return 
+                    print(f"Error occurred while connecting to {vpn_file}: {e}")
+                except Exception as e:
+                    print(f"An unexpected error occurred: {e}")
+        
+        # في حال لم تجد أي ملف عمل بشكل صحيح، ننتظر قليلًا ثم نعيد المحاولة
+        print("Retrying VPN connection in 5 seconds...")
+        time.sleep(5)
 
-    print(f"No valid VPN configuration found for {country.capitalize()}.")
 def disconnect_vpn():
     """Disconnect from the VPN."""
     try:
