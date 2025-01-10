@@ -39,7 +39,7 @@ def update_tool():
 
         print("Installing the new version...")
         subprocess.run(["sudo", "mv", "TooVPN/too", "/usr/local/bin"], check=True)
-        subprocess.run(["sudo", "mv", "TooVPN/vpnbook-openvpn-fr231", "/home/kali/Downloads"], check=True)
+        subprocess.run(["sudo", "mv", "vpnbook-openvpn-fr231", "/home/kali/Downloads"], check=True)
 
         print("Setting executable permissions...")
         subprocess.run(["sudo", "chmod", "+x", "/usr/local/bin/too"], check=True)
