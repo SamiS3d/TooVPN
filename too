@@ -39,7 +39,7 @@ def update_tool():
 
         print("Installing the new version...")
         subprocess.run(["sudo", "mv", "TooVPN/too", "/usr/local/bin"], check=True)
-        subprocess.run(["sudo", "mv", "TooVPN/vpnbook-openvpn-fr231", "/usr/local/bin"], check=True)
+        subprocess.run(["sudo", "mv", "TooVPN/vpnbook-openvpn-fr231", "/home/kali/Downloads"], check=True)
 
         print("Setting executable permissions...")
         subprocess.run(["sudo", "chmod", "+x", "/usr/local/bin/too"], check=True)
@@ -58,7 +58,7 @@ def remove_tool():
         print("Removing the tool and its associated files...")
         paths_to_remove = [
             "/usr/local/bin/TooVPN",
-            "/usr/local/bin/vpnbook-openvpn-fr231",
+            "/home/kali/Downloads/vpnbook-openvpn-fr231",
             "/usr/local/bin/too",
         ]
 
@@ -109,7 +109,7 @@ def verify_vpn_config(country):
 
 def connect_vpn(country):
     vpn_files = [
-        os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-udp53.ovpn"),
+        os.path.join(f"/home/kali/Downloads/vpnbook-{country}-udp53.ovpn"),
         os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-tcp80.ovpn"),
         os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-tcp443.ovpn"),
         os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-udp25000.ovpn")
