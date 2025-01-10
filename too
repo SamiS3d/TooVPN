@@ -116,47 +116,31 @@ def connect_vpn(country):
         os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-udp25000.ovpn")
     ]
 
-    def try_connect(vpn_file):
-        """يحاول الاتصال باستخدام ملف VPN معين"""
-        print(f"Trying to connect using: {vpn_file}")
-        try:
-            process = subprocess.Popen(
-                ["sudo", "openvpn", "--config", vpn_file],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
-            )
-            time.sleep(5)  # انتظر قليلاً لبدء الاتصال
-            output, error = process.communicate(timeout=10)
-
-            if process.returncode == 0:
-                print(f"Successfully connected using: {vpn_file}")
-                return True  # نجاح الاتصال
-            else:
-                print(f"Failed to connect using: {vpn_file}")
-                return False
-        except subprocess.TimeoutExpired:
-            print(f"Timeout expired for: {vpn_file}")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-        finally:
-            if process and process.poll() is None:
-                process.terminate()
-        return False  # فشل الاتصال
-
     for vpn_file in vpn_files:
-        if os.path.exists(vpn_file) and try_connect(vpn_file):
-            print(f"VPN connected using {vpn_file}.")
-            
-            # إجراءات خاصة حسب الدولة
-            if country == "france":
-                print("VPN connected to France.")
-                subprocess.run(["curl", "ascii.live/forrest"])
-            elif country == "usa":
-                print("VPN connected to USA.")
-                subprocess.run(["curl", "ascii.live/parrot"])
-            elif country == "canada":
-                print("VPN connected to Canada.")
-                print("""
+        if os.path.exists(vpn_file):
+            try:
+                print(f"Trying to connect using: {vpn_file}")
+                process = subprocess.Popen(
+                    ["sudo", "openvpn", "--config", vpn_file],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE
+                )
+                time.sleep(5)  # انتظر قليلاً لبدء الاتصال
+                output, error = process.communicate(timeout=10)
+
+                if process.returncode == 0:
+                    print(f"Successfully connected using: {vpn_file}")
+                    
+                    # إجراءات خاصة حسب الدولة
+                    if country == "france":
+                        print("VPN connected to France.")
+                        subprocess.run(["curl", "ascii.live/forrest"])
+                    elif country == "usa":
+                        print("VPN connected to USA.")
+                        subprocess.run(["curl", "ascii.live/parrot"])
+                    elif country == "canada":
+                        print("VPN connected to Canada.")
+                        print("""
                                                                                                                                                                                     
                                                                                                                 
                                                                                                                 
@@ -195,7 +179,15 @@ def connect_vpn(country):
                                                                                                                 
                                                                                                                 
                                                                                                     """)
-            return  # الخروج بعد النجاح
+                    process.terminate()  # إنهاء العملية
+                    return  # الخروج من الدالة بالكامل عند نجاح الاتصال
+            except subprocess.TimeoutExpired:
+                print(f"Timeout expired for: {vpn_file}")
+            except Exception as e:
+                print(f"An error occurred: {e}")
+            finally:
+                if process and process.poll() is None:
+                    process.terminate()
 
     print("No working VPN configuration found. Retrying in 5 seconds...")
     time.sleep(5)  # انتظر قليلاً قبل إعادة المحاولة
