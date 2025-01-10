@@ -108,7 +108,6 @@ def verify_vpn_config(country):
         return None
 
 def connect_vpn(country):
-def connect_vpn(country):
     vpn_files = [
         os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-tcp80.ovpn"),
         os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-tcp443.ovpn"),
