@@ -115,24 +115,30 @@ def connect_vpn(country):
         os.path.join(VPN_CONFIG_DIR, f"vpnbook-{country}-udp25000.ovpn")
     ]
 
-    for vpn_file in vpn_files:
-        if os.path.exists(vpn_file):
-            try:
-                print(f"Connecting to VPN using configuration: {vpn_file}...")
-                process = subprocess.Popen(
-                    ["sudo", "openvpn", "--config", vpn_file],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE
-                )
+    while True:
+        for vpn_file in vpn_files:
+            if os.path.exists(vpn_file):
+                try:
+                    print(f"Connecting to VPN using configuration: {vpn_file}...")
+                    process = subprocess.Popen(
+                        ["sudo", "openvpn", "--config", vpn_file],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE
+                    )
+                    time.sleep(5) 
+                    output, error = process.communicate(timeout=10)
+                    
+                    if process.returncode == 0:
+                        print(f"VPN connected using {vpn_file}.")
+                        if country == "france":
+                            print("VPN connected to France.")
+                            subprocess.run(["curl", "ascii.live/forrest"])
+                        elif country == "usa":
+                            print("VPN connected to USA.")
+                            subprocess.run(["curl", "ascii.live/parrot"])
+                        elif country == "canada":
+                            print("VPN connected to Canada.")
 
-                if country == "france":
-                    print("VPN connected to France.")
-                    subprocess.run(["curl", "ascii.live/forrest"])
-                elif country == "usa":
-                    print("VPN connected to USA.")
-                    subprocess.run(["curl", "ascii.live/parrot"])
-                elif country == "canada":
-                    print("VPN connected to Canada.")
                     print("""
                                                                                                     
                                                                                                     
