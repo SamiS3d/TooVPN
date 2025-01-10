@@ -138,8 +138,7 @@ def connect_vpn(country):
                             subprocess.run(["curl", "ascii.live/parrot"])
                         elif country == "canada":
                             print("VPN connected to Canada.")
-
-                    print("""
+                            print("""
                                                                                                     
                                                                                                     
                                                                                                     
@@ -181,11 +180,11 @@ def connect_vpn(country):
                                                                                                     
                                                                                                     
                                                                                                     """)
-               return
+                         return
             except subprocess.CalledProcessError as e:
-                    print(f"Error occurred while connecting to {vpn_file}: {e}")
-                except Exception as e:
-                    print(f"An unexpected error occurred: {e}")
+                print(f"Error occurred while connecting to {vpn_file}: {e}")
+            except Exception as e:
+                print(f"An unexpected error occurred: {e}")
         
         # في حال لم تجد أي ملف عمل بشكل صحيح، ننتظر قليلًا ثم نعيد المحاولة
         print("Retrying VPN connection in 5 seconds...")
