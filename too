@@ -109,10 +109,10 @@ def verify_vpn_config(country):
 
 def connect_vpn(country):
     vpn_files = [
-        os.path.join(f"/home/kali/Downloads/vpnbook-{country}-udp53.ovpn"),
-        os.path.join(f"home/kali/Downloads/vpnbook-{country}-tcp80.ovpn"),
-        os.path.join(f"home/kali/Downloads/vpnbook-{country}-tcp443.ovpn"),
-        os.path.join(f"home/kali/Downloads/vpnbook-{country}-udp25000.ovpn")
+        os.path.join(f"/home/kali/Downloads/vpnbook-openvpn-fr231/vpnbook-{country}-udp53.ovpn"),
+        os.path.join(f"home/kali/Downloads/vpnbook-openvpn-fr231/vpnbook-{country}-tcp80.ovpn"),
+        os.path.join(f"home/kali/Downloads/vpnbook-openvpn-fr231/vpnbook-{country}-tcp443.ovpn"),
+        os.path.join(f"home/kali/Downloads/vpnbook-openvpn-fr231/vpnbook-{country}-udp25000.ovpn")
     ]
 
     for vpn_file in vpn_files:
