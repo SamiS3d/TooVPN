@@ -8,7 +8,11 @@ VERSION = "1.0"
 
 VPN_CONFIG_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.join(VPN_CONFIG_DIR, "vpnbook-openvpn-fr231")
-VPN_CONFIG_DIR = os.path.expanduser(BASE_DIR)
+# اجعل مجلد إعدادات الـ VPN ضمن مجلد Downloads للمستخدم الحالي بدلاً من مسار ثابت باسم "kali"
+VPN_CONFIG_DIR = os.path.join(os.path.expanduser("~"), "Downloads", "vpnbook-openvpn-fr231")
+
+# مسار Downloads الديناميكي للمستخدم الحالي (بدون أي افتراضات عن اسم الجهاز/المستخدم)
+DOWNLOADS_DIR = os.path.join(os.path.expanduser("~"), "Downloads")
 
 COUNTRIES = ["france", "canada", "usa"]
 
@@ -39,7 +43,8 @@ def update_tool():
 
         print("Installing the new version...")
         subprocess.run(["sudo", "mv", "TooVPN/too", "/usr/local/bin"], check=True)
-        subprocess.run(["sudo", "mv", "TooVPN/vpnbook-openvpn-fr231", "/home/kali/Downloads"], check=True)
+        # استبدال المسار الثابت بـ Downloads الديناميكي
+        subprocess.run(["sudo", "mv", "TooVPN/vpnbook-openvpn-fr231", DOWNLOADS_DIR], check=True)
 
         print("Setting executable permissions...")
         subprocess.run(["sudo", "chmod", "+x", "/usr/local/bin/too"], check=True)
@@ -58,7 +63,8 @@ def remove_tool():
         print("Removing the tool and its associated files...")
         paths_to_remove = [
             "/usr/local/bin/TooVPN",
-            "/home/kali/Downloads/vpnbook-openvpn-fr231",
+            # استبدال المسار الثابت بـ Downloads الديناميكي
+            os.path.join(DOWNLOADS_DIR, "vpnbook-openvpn-fr231"),
             "/usr/local/bin/too",
         ]
 
@@ -108,11 +114,12 @@ def verify_vpn_config(country):
         return None
 
 def connect_vpn(country):
+    vpn_dir = os.path.join(DOWNLOADS_DIR, "vpnbook-openvpn-fr231")
     vpn_files = [
-        os.path.join(f"/home/kali/Downloads/vpnbook-openvpn-fr231/vpnbook-{country}-udp53.ovpn"),
-        os.path.join(f"home/kali/Downloads/vpnbook-openvpn-fr231/vpnbook-{country}-tcp80.ovpn"),
-        os.path.join(f"home/kali/Downloads/vpnbook-openvpn-fr231/vpnbook-{country}-tcp443.ovpn"),
-        os.path.join(f"home/kali/Downloads/vpnbook-openvpn-fr231/vpnbook-{country}-udp25000.ovpn")
+        os.path.join(vpn_dir, f"vpnbook-{country}-udp53.ovpn"),
+        os.path.join(vpn_dir, f"vpnbook-{country}-tcp80.ovpn"),
+        os.path.join(vpn_dir, f"vpnbook-{country}-tcp443.ovpn"),
+        os.path.join(vpn_dir, f"vpnbook-{country}-udp25000.ovpn")
     ]
 
     for vpn_file in vpn_files:
